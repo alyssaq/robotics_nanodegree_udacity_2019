@@ -43,11 +43,11 @@ void process_image_callback(const sensor_msgs::Image img) {
     if (white_ball_pos < 0) { // stop
       drive_robot(0.0, 0.0);
     } else if (white_ball_pos < left) {
-      drive_robot(0.0, 0.5);
+      drive_robot(0.1, 0.1);
     } else if (white_ball_pos > right) {
-      drive_robot(0.0, -0.5);
+      drive_robot(0.1, -0.1);
     } else { // forward
-      drive_robot(0.5, 0.0);
+      drive_robot(0.1, 0.0);
     }
 }
 
