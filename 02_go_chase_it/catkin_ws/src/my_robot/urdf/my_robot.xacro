@@ -8,6 +8,10 @@
     <child link="chassis" />
   </joint>
 
+  <gazebo reference="chassis">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
   <link name='chassis'>
     <pose>0 0 0.1 0 0 0</pose>
 
@@ -90,6 +94,10 @@
     </visual>
   </link>
 
+  <gazebo reference="left_wheel">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
   <joint type="continuous" name="left_wheel_hinge">
     <origin xyz="0 0.15 0" rpy="0 0 0"/>
     <parent link="chassis"/>
@@ -124,6 +132,10 @@
       </geometry>
     </visual>
   </link>
+
+  <gazebo reference="right_wheel">
+    <material>Gazebo/Black</material>
+  </gazebo>
 
   <joint type="continuous" name="right_wheel_hinge">
     <origin xyz="0 0.15 0" rpy="0 0 0"/>
