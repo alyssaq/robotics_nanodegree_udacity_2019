@@ -1,4 +1,6 @@
 build
+devel
 others
 *.zip
 .vagrant
+.catkin_workspace
