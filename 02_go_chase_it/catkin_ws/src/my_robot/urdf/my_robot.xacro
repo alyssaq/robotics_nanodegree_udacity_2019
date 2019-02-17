@@ -172,6 +172,10 @@
     </visual>
   </link>
 
+  <gazebo reference="camera">
+    <material>Gazebo/Indigo</material>
+  </gazebo>
+
   <joint name="camera_joint" type="fixed">
     <origin xyz="0.2 0 0" rpy="0 0 0" />
     <axis xyz="0 1 0" rpy="0 0 0"/>
