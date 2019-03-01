@@ -1,0 +1,11 @@
+local_costmap:
+   global_frame: odom
+   robot_base_frame: robot_footprint
+   transform_tolerance: 1.25
+   update_frequency: 3.0
+   publish_frequency: 3.0
+   width: 15.0
+   height: 15.0
+   resolution: 0.05
+   static_map: false
+   rolling_window: true
