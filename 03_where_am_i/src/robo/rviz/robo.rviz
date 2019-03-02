@@ -19,7 +19,8 @@ Panels:
     Name: Tool Properties
     Splitter Ratio: 0.588679016
   - Class: rviz/Views
-    Expanded: ~
+    Expanded:
+      - /Current View1
     Name: Views
     Splitter Ratio: 0.5
   - Class: rviz/Time
@@ -230,5 +231,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1200
-  X: 225
-  Y: 0
+  X: 224
+  Y: -26

@@ -14,17 +14,16 @@
     <param name="global_frame_id" value="map"/>
 
     <!-- AMCL Filter Parameters -->
-    <param name="initial_pose_x" value="0"/>
-    <param name="initial_pose_y" value="0"/>
-    <param name="min_particles" value="50"/>
-    <param name="max_particles" value="2000"/>
-    <param name="update_min_d" value="0.15"/>
-    <param name="update_min_a" value="0.25"/>
-    <param name="transform_tolerance" value="0.2"/>
+    <param name="intial_x_post" value="15.0"/>
+    <param name="min_particles" value="20"/>
+    <param name="max_particles" value="1000"/>
+    <param name="update_min_d" value="0.25"/>
+    <param name="update_min_a" value="0.5"/>
+    <param name="transform_tolerance" value="0.1"/>
 
     <!-- AMCL Laser Parameters -->
     <param name="laser_min_range" value="5"/>
-    <param name="laser_max_range" value="20"/>
+    <param name="laser_max_range" value="50"/>
     <param name="laser_max_beams" value="40"/>
     <param name="laser_z_hit" value="0.95"/>
     <param name="laser_z_rand" value="0.05"/>
