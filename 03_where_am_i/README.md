@@ -49,6 +49,7 @@ $ cd .. && catkin_make
 To run turtlebot3 simulation:
 ```sh
 $ source devel/setup.bash
+$ export TURTLEBOT3_MODEL=burger # [burger, waffle, waffle_pi]
 $ roslaunch turtlebot3_gazebo turtlebot3_world.launch
 ```
 To run turtlebot3 navigation:
