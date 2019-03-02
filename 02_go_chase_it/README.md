@@ -1,20 +1,20 @@
 # Assignment 2: Go Chase it!
 
 To build and launch robot world:
-```
+```sh
 $ catkin_make
 $ source devel/setup.bash
 $ roslaunch my_robot world.launch
 ```
 
 Run `drive_bot` and `process_image` nodes:
-```
+```sh
 $ source devel/setup.bash
 $ roslaunch ball_chaser ball_chaser.launch
 ```
 
 Visualize robot's camera (or use RViz):
-```
+```sh
 $ source devel/setup.bash
 $ rosrun rqt_image_view rqt_image_view 
 ```

@@ -1,7 +1,7 @@
 # Assignment 3: Where Am I
 
 ## To build and launch robo world with AMCL & rviz:
-```
+```sh
 $ catkin_make
 $ source devel/setup.bash
 $ roslaunch robo world.launch
@@ -12,7 +12,7 @@ $ roslaunch robo world.launch
 - Click on `2D Nav Goal` on the topbar in rviz
 
 (2) Add teleop package to navigate robo with keyboard:
-```
+```sh
 $ cd src && git clone https://github.com/ros-teleop/teleop_twist_keyboard
 $ cd .. && catkin_make
 $ source devel/setup.bash
