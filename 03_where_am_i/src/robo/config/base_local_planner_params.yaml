@@ -3,3 +3,4 @@ TrajectoryPlannerROS:
   sim_time: 4.0
   meter_scoring: true
   pdist_scale: 0.5
+  min_vel_theta: -0.5
