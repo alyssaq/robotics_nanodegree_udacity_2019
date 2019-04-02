@@ -16,12 +16,14 @@ $ source devel/setup.bash
 $ rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 ```
 
-## Viewing rtabmap database
+## Download and view rtabmap database
 ```sh
+$ curl -L https://github.com/alyssaq/robotics_nanodegree_udacity_2019/raw/rtabmap/rtabmap.db rtabmap.db
 $ rtabmap-databaseViewer rtabmap.db
-View -> Constraint View
-View -> Graph View
 ```
+#### Viewer Settings
+View -> Constraint View   
+View -> Graph View
 
 ## References 
 * [RTAB-Map Node](http://wiki.ros.org/rtabmap_ros#Tutorials)
