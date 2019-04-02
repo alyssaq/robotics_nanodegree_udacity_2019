@@ -30,7 +30,7 @@ Rviz with RGBD data
 ![Rviz with RGBD data](images/rviz.jpg)
 
 RTAB-Map Database Viewer
-![RTAB-Map Database Viewer](images/RTAB-map_db_viewer.jpg)
+![RTAB-Map Database Viewer](images/RTAB-map_database_viewer.jpg)
 
 ## References 
 * [RTAB-Map Node](http://wiki.ros.org/rtabmap_ros#Tutorials)
