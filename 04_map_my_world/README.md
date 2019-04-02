@@ -18,7 +18,7 @@ $ rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 
 ## Download and view rtabmap database
 ```sh
-$ curl -L https://github.com/alyssaq/robotics_nanodegree_udacity_2019/raw/rtabmap/rtabmap.db rtabmap.db
+$ curl -L https://github.com/alyssaq/robotics_nanodegree_udacity_2019/raw/rtabmap/rtabmap.db > rtabmap.db
 $ rtabmap-databaseViewer rtabmap.db
 ```
 #### Viewer Settings
