@@ -32,8 +32,8 @@
               -x $(arg x) -y $(arg y) -z $(arg z)
               -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
 
-  <!-- Launch AMCL -->
-  <!-- <include file="$(find robo)/launch/amcl.launch"/> -->
+  <!-- Launch RTAB-Map -->
+  <include file="$(find robo)/launch/mapping.launch"/>
 
   <!-- launch rviz -->
   <!-- <node name="rviz" pkg="rviz" type="rviz" respawn="false"
