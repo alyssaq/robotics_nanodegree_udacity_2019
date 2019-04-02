@@ -36,8 +36,7 @@
   <include file="$(find robo)/launch/mapping.launch"/>
 
   <!-- launch rviz -->
-  <!-- <node name="rviz" pkg="rviz" type="rviz" respawn="false"
-    args="-d $(find robo)/rviz/robo.rviz"/> -->
-  <node name="rviz" pkg="rviz" type="rviz" respawn="false" />
+  <node name="rviz" pkg="rviz" type="rviz" respawn="false"
+    args="-d $(find robo)/rviz/robo.rviz"/>
 
 </launch>
