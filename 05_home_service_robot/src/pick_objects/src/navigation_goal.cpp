@@ -41,12 +41,27 @@ bool moveToPosition(double xPos, double yPos) {
   }
 }
 
+
 int main(int argc, char** argv) {
   ros::init(argc, argv, "pick_objects");
+  ros::NodeHandle n;
+ros::Rate r(1);
+int goal = 1;
+  while (ros::ok()) {
+    if (goal == 1) {
+      if (moveToPosition(7.0, 3.0)) {
+        ROS_INFO("next one");
+        goal = 0;
+      };
+    } else {
+      moveToPosition(0.0, 0.0);
+      goal = 1;
+    }
+    sleep(5);
+    ros::spinOnce();
+    r.sleep();
+  }
 
-  moveToPosition(7.0, 3.0);
-  sleep(10);
-  moveToPosition(0.0, 0.0);
 
   return 0;
 }
