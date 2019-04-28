@@ -2,7 +2,15 @@
 <launch>
 
   <!-- World File -->
-  <arg name="world_file" default="$(find homerobo)/worlds/homerobo.world"/>
+  <arg name="world_file" default="$(find robo)/worlds/robo.world"/>
+
+  <!-- Launch Gazebo World -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="use_sim_time" value="true"/>
+    <arg name="debug" value="false"/>
+    <arg name="gui" value="true" />
+    <arg name="world_name" value="$(arg world_file)"/>
+  </include>
 
   <!-- Robot pose -->
   <arg name="x" default="0"/>
@@ -13,22 +21,22 @@
   <arg name="yaw" default="0"/>
 
   <!-- Launch other relevant files -->
-  <include file="$(find homerobo)/launch/robot_description.launch"/>
+  <include file="$(find robo)/launch/robot_description.launch"/>
 
   <!-- Find my robot Description-->
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find homerobo)/urdf/homerobo.xacro'"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find robo)/urdf/robo.xacro'"/>
 
   <!-- Spawn My Robot -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-        args="-urdf -param robot_description -model homerobo
+        args="-urdf -param robot_description -model robo
               -x $(arg x) -y $(arg y) -z $(arg z)
               -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
 
   <!-- Launch AMCL -->
-  <include file="$(find homerobo)/launch/amcl.launch"/>
+  <include file="$(find robo)/launch/amcl.launch"/>
 
   <!-- launch rviz -->
   <node name="rviz" pkg="rviz" type="rviz" respawn="false"
-    args="-d $(find homerobo)/rviz/homerobo.rviz"/>
+    args="-d $(find robo)/rviz/robo.rviz"/>
 
 </launch>

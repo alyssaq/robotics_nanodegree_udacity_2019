@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
-<robot name="homerobo" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:include filename="$(find homerobo)/urdf/homerobo.gazebo" />
+<robot name="robo" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find robo)/urdf/robo.gazebo" />
   <link name="robot_footprint"></link>
 
   <joint name="robot_footprint_joint" type="fixed">
@@ -205,7 +205,7 @@
     <visual name='hokuyo_visual'>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://homerobo/meshes/hokuyo.dae"/>
+        <mesh filename="package://robo/meshes/hokuyo.dae"/>
       </geometry>
     </visual>
   </link>

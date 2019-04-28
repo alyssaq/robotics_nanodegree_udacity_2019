@@ -2,12 +2,12 @@
 <launch>
 
   <!-- Map Server -->
-  <arg name="map_file" default="$(find homerobo)/maps/map.yaml"/>
+  <arg name="map_file" default="$(find robo)/maps/map.yaml"/>
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
   <!-- AMCL Node -->
   <node name="amcl" pkg="amcl" type="amcl" output="screen">
-    <remap from="scan" to="/homerobo/laser/scan"/>
+    <remap from="scan" to="/robo/laser/scan"/>
     <param name="odom_frame_id" value="odom"/>
     <param name="odom_model_type" value="diff-corrected"/>
     <param name="base_frame_id" value="robot_footprint"/>
@@ -31,15 +31,15 @@
 
   <!-- Move Base -->
   <node name="move_base" pkg="move_base" type="move_base" respawn="false" output="screen">
-    <remap from="scan" to="homerobo/laser/scan"/>
+    <remap from="scan" to="robo/laser/scan"/>
     <param name="controller_frequency" value="10" />
     <param name="base_global_planner" value="navfn/NavfnROS" />
     <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
-    <rosparam file="$(find homerobo)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find homerobo)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find homerobo)/config/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find homerobo)/config/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find homerobo)/config/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find robo)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find robo)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find robo)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find robo)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find robo)/config/base_local_planner_params.yaml" command="load" />
   </node>
 
 </launch>
