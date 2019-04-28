@@ -8,7 +8,7 @@ int main( int argc, char** argv )
   ros::Rate r(1);
   ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
 
-	ros::Publisher vis_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 0 );
+	//ros::Publisher vis_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 0 );
   
   // Set our initial shape type to be a cube
   uint32_t shape = visualization_msgs::Marker::CUBE;
@@ -17,7 +17,7 @@ int main( int argc, char** argv )
   {
     visualization_msgs::Marker marker;
     // Set the frame ID and timestamp.  See the TF tutorials for information on these.
-    marker.header.frame_id = "base_footprint";
+    marker.header.frame_id = "robot_footprint";
     marker.header.stamp = ros::Time::now();
 
     // Set the namespace and id for this marker.  This serves to create a unique ID
@@ -54,17 +54,17 @@ int main( int argc, char** argv )
     marker.lifetime = ros::Duration();
 
     // Publish the marker
-   while (marker_pub.getNumSubscribers() < 1)
-   {
+ //  while (marker_pub.getNumSubscribers() < 0)
+ //  {
       if (!ros::ok())
       {
         return 0;
       }
-      ROS_WARN_ONCE("Please create a subscriber to the marker");
-      sleep(1);
-    }
+     // ROS_WARN_ONCE("Please create a subscriber to the marker");
+    //  sleep(1);
+  //  }
     marker_pub.publish(marker);
-	vis_pub.publish(marker);
+//	vis_pub.publish(marker);
     // Cycle between different shapes
     switch (shape)
     {
