@@ -3,9 +3,9 @@
 #include <actionlib/client/simple_action_client.h>
 
 const double PICKUP_POS_X = 7.0;
-const double PICKUP_POS_Y = 2.0;
-const double DROPOFF_POS_X = 5.0;
-const double DROPOFF_POS_Y = 5.0;
+const double PICKUP_POS_Y = 1.0;
+const double DROPOFF_POS_X = 3.1;
+const double DROPOFF_POS_Y = 1.6;
 
 bool moveToPosition(double xPos, double yPos) {
   // define a client for to send goal requests to the move_base server through a SimpleActionClient
