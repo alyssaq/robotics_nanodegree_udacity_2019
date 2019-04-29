@@ -44,7 +44,7 @@ void poseCallback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg)
   const double xPos = msg->pose.pose.position.x;
   const double yPos = msg->pose.pose.position.y;
   const double drift = 0.1;
-  if (state == 1 && xPos >= 7.0-drift && xPos <= 7.0+drift && yPos >= 2.0-drift && yPose <=2.0+drift) {
+  if (state == 1 && xPos >= 7.0-drift && xPos <= 7.0+drift && yPos >= 2.0-drift && yPos <=2.0+drift) {
     // Arrived at pick up location
     marker.action = visualization_msgs::Marker::DELETE;
     ROS_INFO("Deleting marker");
