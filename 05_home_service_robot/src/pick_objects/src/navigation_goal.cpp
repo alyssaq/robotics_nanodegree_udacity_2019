@@ -3,7 +3,7 @@
 #include <actionlib/client/simple_action_client.h>
 
 const double PICKUP_POS_X = 7.0;
-const double PICKUP_POS_Y = 1.5;
+const double PICKUP_POS_Y = 2.0;
 const double DROPOFF_POS_X = 5.0;
 const double DROPOFF_POS_Y = 5.0;
 
