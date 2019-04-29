@@ -2,6 +2,11 @@
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 
+const double PICKUP_POS_X = 7.0;
+const double PICKUP_POS_Y = 1.5;
+const double DROPOFF_POS_X = 5.0;
+const double DROPOFF_POS_Y = 5.0;
+
 bool moveToPosition(double xPos, double yPos) {
   // define a client for to send goal requests to the move_base server through a SimpleActionClient
   actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac("move_base", true);
@@ -13,7 +18,7 @@ bool moveToPosition(double xPos, double yPos) {
 
   move_base_msgs::MoveBaseGoal goal;
 
-  // set up the frame parameters
+  // send positions absolute to map. For relative to robo, use robot_footprint
   goal.target_pose.header.frame_id = "map";
   goal.target_pose.header.stamp = ros::Time::now();
 
@@ -26,13 +31,13 @@ bool moveToPosition(double xPos, double yPos) {
   goal.target_pose.pose.orientation.z = 0.0;
   goal.target_pose.pose.orientation.w = 1.0;
 
-  ROS_INFO("Sending goal location ...");
+  ROS_INFO("Sending goal location at %1.2f %1.2f", xPos, yPos);
   ac.sendGoal(goal);
 
   ac.waitForResult();
 
   if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) {
-    ROS_INFO("You have reached the destination at %1.2f %1.2f", xPos, yPos);
+    ROS_INFO("You have reached the destination");
     return true;
   }
   else {
@@ -41,27 +46,28 @@ bool moveToPosition(double xPos, double yPos) {
   }
 }
 
-
 int main(int argc, char** argv) {
   ros::init(argc, argv, "pick_objects");
   ros::NodeHandle n;
-ros::Rate r(1);
-int goal = 1;
+  ros::Rate r(1);
+
+  uint16_t goal = 1;
   while (ros::ok()) {
     if (goal == 1) {
-      if (moveToPosition(7.0, 3.0)) {
-        ROS_INFO("next one");
+      if (moveToPosition(PICKUP_POS_X, PICKUP_POS_Y)) {
         goal = 0;
+      } else {
+        break;
       };
     } else {
-      moveToPosition(0.0, 0.0);
-      goal = 1;
+      moveToPosition(DROPOFF_POS_X, DROPOFF_POS_Y);
+      break;
     }
+
     sleep(5);
     ros::spinOnce();
     r.sleep();
   }
-
 
   return 0;
 }
