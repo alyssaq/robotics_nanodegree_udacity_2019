@@ -2,35 +2,17 @@
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 
+// Global state variable of marker where 0 = hide, 1 = show.
+uint16_t state = 0;
+visualization_msgs::Marker marker;
+
 void poseCallback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg) {
   ROS_INFO("Position-> x: [%f], y: [%f], z: [%f]", msg->pose.pose.position.x,msg->pose.pose.position.y, msg->pose.pose.position.z);
   ROS_INFO("Orientation-> x: [%f], y: [%f], z: [%f], w: [%f]", msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, msg->pose.pose.orientation.z, msg->pose.pose.orientation.w);
-}
 
-int main( int argc, char** argv )
-{
-  ros::init(argc, argv, "basic_shapes");
-  ros::NodeHandle n;
-  ros::Rate r(1);
-  ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-  ros::Subscriber pose_sub = n.subscribe("amcl_pose", 1000, poseCallback);
-
-  uint32_t state = 0;
-  while (ros::ok())
-  {
-    visualization_msgs::Marker marker;
-    // Set the frame ID and timestamp.  See the TF tutorials for information on these.
-    marker.header.frame_id = "robot_footprint";
+  if (state == 0) {
     marker.header.stamp = ros::Time::now();
 
-    // Set the namespace and id for this marker.  This serves to create a unique ID
-    // Any marker sent with the same namespace and id will overwrite the old one
-    marker.ns = "basic_shapes";
-    marker.id = 0;
-
-    marker.type = visualization_msgs::Marker::SPHERE;//CYLINDER;
-
-    if (state == 0) {
     // Set the marker action.  Options are ADD, DELETE, and new in ROS Indigo: 3 (DELETEALL)
     marker.action = visualization_msgs::Marker::ADD;
 
@@ -55,23 +37,31 @@ int main( int argc, char** argv )
     marker.color.a = 1.0;
 
     marker.lifetime = ros::Duration();
-    ROS_INFO("publishing");
-    if (!ros::ok()) {
-      return 0;
-    }
 
+    ROS_INFO("Publishing marker");
     state = 1;
-    } else {
-    ROS_INFO("deleting");
+  } else {
     marker.action = visualization_msgs::Marker::DELETE;
 
+    ROS_INFO("Deleting marker");
     state = 0;
-    }
-
-    marker_pub.publish(marker);
-    sleep(5);
-    r.sleep();
-    ros::spinOnce();
-
   }
+
+  marker_pub.publish(marker);
+}
+
+int main(int argc, char** argv)
+{
+  ros::init(argc, argv, "basic_shapes");
+  ros::NodeHandle n;
+  // ros::Rate r(1);
+  ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+  ros::Subscriber pose_sub = n.subscribe("amcl_pose", 2, poseCallback);
+
+  marker.header.frame_id = "map";
+  marker.ns = "basic_shapes";
+  marker.id = 0; // unique ID in this namespace
+  marker.type = visualization_msgs::Marker::SPHERE; //CYLINDER;
+
+  ros::spin();
 }
