@@ -49,7 +49,7 @@ void poseCallback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg)
     marker.action = visualization_msgs::Marker::DELETE;
     ROS_INFO("Deleting marker");
     state = 0;
-  } else if (state == 0 && xPos >= 5.0-drift && xPos <= 5.0+drift && yPos >= 5.0-drift && yPose <= 5.0+drift) {
+  } else if (state == 0 && xPos >= 5.0-drift && xPos <= 5.0+drift && yPos >= 5.0-drift && yPos <= 5.0+drift) {
     addMarker(xPos, yPos);
     ROS_INFO("Publishing marker");
     state = 1;
