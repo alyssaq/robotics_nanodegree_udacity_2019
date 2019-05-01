@@ -56,7 +56,7 @@ void delete_marker() {
 }
 
 void is_within_goal_bounds(double pos_x, double pos_y, double goal_x, double goal_y, double drift) {
-  return pos_x >= goal_x - drift && pos_x <= goal_x + drift && pos_y >= goal_y - drift && pos_y <= goal_y + drift
+  return pos_x >= goal_x - drift && pos_x <= goal_x + drift && pos_y >= goal_y - drift && pos_y <= goal_y + drift;
 }
 
 void pose_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg) {
