@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
 
   while (ros::ok()) {
     for (int i = 0; i < num_goals; i++) {
-      const bool ok = moveToPosition(goals[i][0], goals[i][1])
+      const bool ok = moveToPosition(goals[i][0], goals[i][1]);
       if (!ok) {
         break
       }
