@@ -33,7 +33,6 @@ bool moveToPosition(double xPos, double yPos) {
 
   ROS_INFO("Sending goal location at %1.2f %1.2f", xPos, yPos);
   ac.sendGoal(goal);
-
   ac.waitForResult();
 
   if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) {
@@ -51,22 +50,37 @@ int main(int argc, char** argv) {
   ros::NodeHandle n;
   ros::Rate r(1);
 
-  uint16_t goal = 1;
-  while (ros::ok()) {
-    if (goal == 1) {
-      if (moveToPosition(PICKUP_POS_X, PICKUP_POS_Y)) {
-        goal = 0;
-      } else {
-        break;
-      };
-    } else {
-      moveToPosition(DROPOFF_POS_X, DROPOFF_POS_Y);
-      break;
-    }
+  // uint16_t goal = 1;
+  int num_goals = 2;
+  const double goals[num_goals][2] = {
+    {PICKUP_POS_X, PICKUP_POS_Y},
+    {DROPOFF_POS_X, DROPOFF_POS_Y}
+  };
 
-    sleep(5);
-    ros::spinOnce();
-    r.sleep();
+  while (ros::ok()) {
+    for (int i = 0; i < num_goals; i++) {
+      const bool ok = moveToPosition(goals[i][0], goals[i][1])
+      if (!ok) {
+        break
+      }
+      sleep(5);
+      ros::spinOnce();
+      r.sleep();
+    }
+    // if (goal == 1) {
+    //   if (moveToPosition(PICKUP_POS_X, PICKUP_POS_Y)) {
+    //     goal = 0;
+    //   } else {
+    //     break;
+    //   };
+    // } else {
+    //   moveToPosition(DROPOFF_POS_X, DROPOFF_POS_Y);
+    //   break;
+    // }
+
+    // sleep(5);
+    // ros::spinOnce();
+    // r.sleep();
   }
 
   return 0;

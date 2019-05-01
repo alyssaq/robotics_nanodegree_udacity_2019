@@ -70,7 +70,6 @@ int main(int argc, char** argv)
 {
   ros::init(argc, argv, "basic_shapes");
   ros::NodeHandle n;
-  // ros::Rate r(1);
 
   marker.header.frame_id = "map";
   marker.ns = "basic_shapes";
@@ -79,7 +78,5 @@ int main(int argc, char** argv)
   ros::Subscriber pose_sub = n.subscribe("amcl_pose", 2, poseCallback);
   marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
 
-  //addMarker(7, 2);
- // marker_pub.publish(marker);
   ros::spin();
 }
