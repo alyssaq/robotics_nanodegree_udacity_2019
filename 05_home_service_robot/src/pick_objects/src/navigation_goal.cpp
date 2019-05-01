@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
     for (int i = 0; i < num_goals; i++) {
       const bool ok = moveToPosition(goals[i][0], goals[i][1]);
       if (!ok) {
-        break
+        break;
       }
       sleep(5);
       ros::spinOnce();
