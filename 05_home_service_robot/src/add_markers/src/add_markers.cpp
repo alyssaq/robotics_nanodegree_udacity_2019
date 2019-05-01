@@ -72,7 +72,7 @@ void pose_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg
   const double drift = 0.1;
   const bool is_at_goal = is_within_goal_bounds(pos_x, pos_y, goal_x, goal_y, drift);
 
-  ROS_INFO("Position-> x: [%f], y: [%f], z: [%f]", pos_x, pos_y, msg->pose.pose.position.z);
+  ROS_INFO("x: %1.3f, y: %1.3f, at goal: %d", pos_x, pos_y, is_at_goal);
   // ROS_INFO("Orientation-> x: [%f], y: [%f], z: [%f], w: [%f]", msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, msg->pose.pose.orientation.z, msg->pose.pose.orientation.w);
 
   if (is_pickup && !is_at_goal) {
@@ -88,17 +88,6 @@ void pose_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg
     goal_idx++;
   }
 
-
-  // if (state == 0 && pos_x >= PICKUP_POS_X-drift && pos_x <= PICKUP_POS_X+drift && pos_y >= PICKUP_POS_Y-drift && pos_y <= PICKUP_POS_Y+drift) {
-  //   // Arrived at pick up location
-  //   marker.action = visualization_msgs::Marker::DELETE;
-  //   ROS_INFO("Deleting marker");
-  //   state = 1;
-  // } else if (state == 1 && pos_x >= DROPOFF_POS_X-drift && pos_x <= DROPOFF_POS_X+drift && pos_y >= DROPOFF_POS_Y-drift && pos_y <= DROPOFF_POS_Y+drift) {
-  //   // Arrived at drop off location
-  //   add_marker(pos_x, pos_y);
-  // }
-
   marker_pub.publish(marker);
 }
 
@@ -113,8 +102,6 @@ int main(int argc, char** argv)
 
   ros::Subscriber pose_sub = n.subscribe("amcl_pose", 2, pose_callback);
   marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-
-  // add_marker(7.0, 1.0);
 
   ros::spin();
 }
