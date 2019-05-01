@@ -55,7 +55,7 @@ void delete_marker() {
   ROS_INFO("Deleting marker");
 }
 
-void is_within_goal_bounds(double pos_x, double pos_y, double goal_x, double goal_y, double drift) {
+bool is_within_goal_bounds(double pos_x, double pos_y, double goal_x, double goal_y, double drift) {
   return pos_x >= goal_x - drift && pos_x <= goal_x + drift && pos_y >= goal_y - drift && pos_y <= goal_y + drift;
 }
 
