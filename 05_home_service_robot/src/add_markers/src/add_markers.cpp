@@ -2,7 +2,7 @@
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 
-int GOAL_IDX = 0;
+uint16_t GOAL_IDX = 0;
 const int NUM_GOALS = 2;
 const double GOALS[NUM_GOALS][2] = {
   {7.0, 1.0},
@@ -34,10 +34,9 @@ void add_marker(double pos_x, double pos_y) {
   marker.scale.z = 0.25;
 
   // Set the color -- be sure to set alpha to something non-zero!
-  const float color = (float) (GOAL_IDX - GOAL_IDX % 2 + 2) / (float) NUM_GOALS;
-  marker.color.r = color;
-  marker.color.g = color;
-  marker.color.b = color;
+  marker.color.r = 0.0;
+  marker.color.g = 0.0;
+  marker.color.b = 1.0;
   marker.color.a = 1.0;
 
   marker.lifetime = ros::Duration();
@@ -66,8 +65,6 @@ void pose_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg
   const double drift = 0.1;
   const bool is_at_goal = is_within_goal_bounds(pos_x, pos_y, goal_x, goal_y, drift);
 
-  marker.id = GOAL_IDX - GOAL_IDX % 2 ; // unique ID in this namespace
-
   ROS_INFO("x: %1.3f, y: %1.3f, at goal: %d", pos_x, pos_y, is_at_goal);
   // ROS_INFO("Orientation-> x: [%f], y: [%f], z: [%f], w: [%f]", msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, msg->pose.pose.orientation.z, msg->pose.pose.orientation.w);
 
@@ -94,6 +91,7 @@ int main(int argc, char** argv)
 
   marker.header.frame_id = "map";
   marker.ns = "basic_shapes";
+  marker.id = 1; // unique ID in this namespace
 
   ros::Subscriber pose_sub = n.subscribe("amcl_pose", 2, pose_callback);
   marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
