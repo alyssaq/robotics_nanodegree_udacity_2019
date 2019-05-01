@@ -3,7 +3,7 @@
 #include <actionlib/client/simple_action_client.h>
 
 const int NUM_GOALS = 2;
-const double GOALS[num_goals][2] = {
+const double GOALS[NUM_GOALS][2] = {
   {7.0, 1.0},
   {3.1, 1.6}
 };
