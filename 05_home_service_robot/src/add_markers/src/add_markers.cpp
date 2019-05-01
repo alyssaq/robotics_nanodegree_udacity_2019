@@ -19,7 +19,7 @@ const double GOALS[2][2] = {
 };
 
 
-void add_marker(double xPos, double yPos) {
+void add_marker(double pos_x, double pos_y) {
   marker.header.stamp = ros::Time::now();
   marker.type = visualization_msgs::Marker::SPHERE; //CYLINDER;
 
@@ -27,8 +27,8 @@ void add_marker(double xPos, double yPos) {
   marker.action = visualization_msgs::Marker::ADD;
 
   // Set the pose of the marker.  This is a full 6DOF pose relative to the frame/time specified in the header
-  marker.pose.position.x = xPos;
-  marker.pose.position.y = yPos;
+  marker.pose.position.x = pos_x;
+  marker.pose.position.y = pos_y;
   marker.pose.position.z = 0;
   marker.pose.orientation.x = 0.0;
   marker.pose.orientation.y = 0.0;
@@ -55,7 +55,7 @@ void delete_marker() {
   ROS_INFO("Deleting marker");
 }
 
-void is_within_goal_bounds(pos_x, pos_y, goal_x, goal_y, drift) {
+void is_within_goal_bounds(double pos_x, double pos_y, double goal_x, double goal_y, double drift) {
   return pos_x >= goal_x - drift && pos_x <= goal_x + drift && pos_y >= goal_y - drift && pos_y <= goal_y + drift
 }
 
