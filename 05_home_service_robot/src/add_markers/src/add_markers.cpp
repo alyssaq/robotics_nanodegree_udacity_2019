@@ -7,12 +7,19 @@ uint16_t state = 1;
 visualization_msgs::Marker marker;
 ros::Publisher marker_pub;
 
+int num_goals = 2;
+uint16_t goal_idx = 0;
 const double PICKUP_POS_X = 7.0;
 const double PICKUP_POS_Y = 1.0;
 const double DROPOFF_POS_X = 3.1;
 const double DROPOFF_POS_Y = 1.6;
+const double GOALS[2][2] = {
+  {PICKUP_POS_X, PICKUP_POS_Y},
+  {DROPOFF_POS_X, DROPOFF_POS_Y}
+};
 
-void addMarker(double xPos, double yPos) {
+
+void add_marker(double xPos, double yPos) {
   marker.header.stamp = ros::Time::now();
   marker.type = visualization_msgs::Marker::SPHERE; //CYLINDER;
 
@@ -43,25 +50,54 @@ void addMarker(double xPos, double yPos) {
   ROS_INFO("Publishing marker");
 }
 
-void poseCallback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg) {
-  ROS_INFO("Position-> x: [%f], y: [%f], z: [%f]", msg->pose.pose.position.x,msg->pose.pose.position.y, msg->pose.pose.position.z);
-  ROS_INFO("Orientation-> x: [%f], y: [%f], z: [%f], w: [%f]", msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, msg->pose.pose.orientation.z, msg->pose.pose.orientation.w);
+void delete_marker() {
+  marker.action = visualization_msgs::Marker::DELETE;
+  ROS_INFO("Deleting marker");
+}
 
-  const double xPos = msg->pose.pose.position.x;
-  const double yPos = msg->pose.pose.position.y;
-  const double drift = 0.1;
-  if (state == 0 && xPos >= PICKUP_POS_X-drift && xPos <= PICKUP_POS_X+drift && yPos >= PICKUP_POS_Y-drift && yPos <= PICKUP_POS_Y+drift) {
-    // Arrived at pick up location
-    marker.action = visualization_msgs::Marker::DELETE;
-    ROS_INFO("Deleting marker");
-    state = 1;
-  } else if (state == 1 && xPos >= DROPOFF_POS_X-drift && xPos <= DROPOFF_POS_X+drift && yPos >= DROPOFF_POS_Y-drift && yPos <= DROPOFF_POS_Y+drift) {
-    // Arrived at drop off location
-    addMarker(xPos, yPos);
-  } else if (state == 1 && xPos >= -drift && xPos <= drift && yPos >= -drift && yPos <= drift) {
-    addMarker(7.0, 1.0);
-    state = 0;
+void is_within_goal_bounds(pos_x, pos_y, goal_x, goal_y, drift) {
+  return pos_x >= goal_x - drift && pos_x <= goal_x + drift && pos_y >= goal_y - drift && pos_y <= goal_y + drift
+}
+
+void pose_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg) {
+  if (goal_idx >= num_goals) {
+    return
   }
+
+  const double pos_x = msg->pose.pose.position.x;
+  const double pos_y = msg->pose.pose.position.y;
+  const double goal_x = GOALS[goal_idx][0];
+  const double goal_y = GOALS[goal_idx][1];
+  const bool is_pickup = goal_idx % 2 == 0;
+  const double drift = 0.1;
+  const bool is_at_goal = is_within_goal_bounds(pos_x, pos_y, goal_x, goal_y, drift);
+
+  ROS_INFO("Position-> x: [%f], y: [%f], z: [%f]", pos_x, pos_y, msg->pose.pose.position.z);
+  // ROS_INFO("Orientation-> x: [%f], y: [%f], z: [%f], w: [%f]", msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, msg->pose.pose.orientation.z, msg->pose.pose.orientation.w);
+
+  if (is_pickup && !is_at_goal) {
+    // Heading to pick up, publish marker there
+    add_marker(goal_x, goal_y);
+  } else if (is_pickup && is_at_goal) {
+    // Reached pick up, delete marker
+    delete_marker();
+    goal_idx++;
+  } else if (!is_pickup && is_at_goal) {
+    // Reached Drop off. leave marker here.
+    add_marker(goal_x, goal_y);
+    goal_idx++;
+  }
+
+
+  // if (state == 0 && pos_x >= PICKUP_POS_X-drift && pos_x <= PICKUP_POS_X+drift && pos_y >= PICKUP_POS_Y-drift && pos_y <= PICKUP_POS_Y+drift) {
+  //   // Arrived at pick up location
+  //   marker.action = visualization_msgs::Marker::DELETE;
+  //   ROS_INFO("Deleting marker");
+  //   state = 1;
+  // } else if (state == 1 && pos_x >= DROPOFF_POS_X-drift && pos_x <= DROPOFF_POS_X+drift && pos_y >= DROPOFF_POS_Y-drift && pos_y <= DROPOFF_POS_Y+drift) {
+  //   // Arrived at drop off location
+  //   add_marker(pos_x, pos_y);
+  // }
 
   marker_pub.publish(marker);
 }
@@ -75,8 +111,10 @@ int main(int argc, char** argv)
   marker.ns = "basic_shapes";
   marker.id = 0; // unique ID in this namespace
 
-  ros::Subscriber pose_sub = n.subscribe("amcl_pose", 2, poseCallback);
+  ros::Subscriber pose_sub = n.subscribe("amcl_pose", 2, pose_callback);
   marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+
+  // add_marker(7.0, 1.0);
 
   ros::spin();
 }
