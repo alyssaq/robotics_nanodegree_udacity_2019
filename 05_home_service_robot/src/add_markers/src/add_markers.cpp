@@ -2,22 +2,15 @@
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 
-// Global state variable of marker where 0 = hide, 1 = show.
-uint16_t state = 1;
-visualization_msgs::Marker marker;
-ros::Publisher marker_pub;
-
-int num_goals = 2;
-uint16_t goal_idx = 0;
-const double PICKUP_POS_X = 7.0;
-const double PICKUP_POS_Y = 1.0;
-const double DROPOFF_POS_X = 3.1;
-const double DROPOFF_POS_Y = 1.6;
-const double GOALS[2][2] = {
-  {PICKUP_POS_X, PICKUP_POS_Y},
-  {DROPOFF_POS_X, DROPOFF_POS_Y}
+uint16_t GOAL_IDX = 0;
+const int NUM_GOALS = 2;
+const double GOALS[NUM_GOALS][2] = {
+  {7.0, 1.0},
+  {3.1, 1.6}
 };
 
+visualization_msgs::Marker marker;
+ros::Publisher marker_pub;
 
 void add_marker(double pos_x, double pos_y) {
   marker.header.stamp = ros::Time::now();
@@ -60,15 +53,15 @@ bool is_within_goal_bounds(double pos_x, double pos_y, double goal_x, double goa
 }
 
 void pose_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg) {
-  if (goal_idx >= num_goals) {
+  if (GOAL_IDX >= NUM_GOALS) {
     return;
   }
 
   const double pos_x = msg->pose.pose.position.x;
   const double pos_y = msg->pose.pose.position.y;
-  const double goal_x = GOALS[goal_idx][0];
-  const double goal_y = GOALS[goal_idx][1];
-  const bool is_pickup = goal_idx % 2 == 0;
+  const double goal_x = GOALS[GOAL_IDX][0];
+  const double goal_y = GOALS[GOAL_IDX][1];
+  const bool is_pickup = GOAL_IDX % 2 == 0;
   const double drift = 0.1;
   const bool is_at_goal = is_within_goal_bounds(pos_x, pos_y, goal_x, goal_y, drift);
 
@@ -81,11 +74,11 @@ void pose_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg
   } else if (is_pickup && is_at_goal) {
     // Reached pick up, delete marker
     delete_marker();
-    goal_idx++;
+    GOAL_IDX++;
   } else if (!is_pickup && is_at_goal) {
     // Reached Drop off. leave marker here.
     add_marker(goal_x, goal_y);
-    goal_idx++;
+    GOAL_IDX++;
   }
 
   marker_pub.publish(marker);
