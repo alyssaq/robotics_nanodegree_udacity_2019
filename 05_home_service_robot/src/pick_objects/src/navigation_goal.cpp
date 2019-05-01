@@ -50,37 +50,25 @@ int main(int argc, char** argv) {
   ros::NodeHandle n;
   ros::Rate r(1);
 
-  // uint16_t goal = 1;
   int num_goals = 2;
   const double goals[num_goals][2] = {
     {PICKUP_POS_X, PICKUP_POS_Y},
     {DROPOFF_POS_X, DROPOFF_POS_Y}
   };
 
-  while (ros::ok()) {
-    for (int i = 0; i < num_goals; i++) {
-      const bool ok = moveToPosition(goals[i][0], goals[i][1]);
-      if (!ok) {
-        break;
-      }
-      sleep(5);
-      ros::spinOnce();
-      r.sleep();
-    }
-    // if (goal == 1) {
-    //   if (moveToPosition(PICKUP_POS_X, PICKUP_POS_Y)) {
-    //     goal = 0;
-    //   } else {
-    //     break;
-    //   };
-    // } else {
-    //   moveToPosition(DROPOFF_POS_X, DROPOFF_POS_Y);
-    //   break;
-    // }
+  if (!ros::ok()) {
+    ROS_WARN("ROS is not OK");
+    return 0;
+  }
 
-    // sleep(5);
-    // ros::spinOnce();
-    // r.sleep();
+  for (int i = 0; i < num_goals; i++) {
+    const bool ok = moveToPosition(goals[i][0], goals[i][1]);
+    if (!ok) {
+      break;
+    }
+    sleep(5);
+    ros::spinOnce();
+    r.sleep();
   }
 
   return 0;
