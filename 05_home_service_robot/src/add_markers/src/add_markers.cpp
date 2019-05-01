@@ -61,7 +61,7 @@ void is_within_goal_bounds(double pos_x, double pos_y, double goal_x, double goa
 
 void pose_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg) {
   if (goal_idx >= num_goals) {
-    return
+    return;
   }
 
   const double pos_x = msg->pose.pose.position.x;
